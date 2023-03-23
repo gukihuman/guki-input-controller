@@ -1,0 +1,25 @@
+{
+  "name": "guki-input-controller",
+  "version": "0.1.0",
+  "description": "This is a lightweight JavaScript module that provides a simple input controller class for loop-based game development. It supports keyboard, mouse, and gamepad.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ivan-f-sokolov/guki-input-controller.git"
+  },
+  "keywords": [
+    "game",
+    "input",
+    "controller",
+    "JavaScript"
+  ],
+  "author": "Ivan F. Sokolov (Guki)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ivan-f-sokolov/guki-input-controller/issues"
+  },
+  "homepage": "https://github.com/ivan-f-sokolov/guki-input-controller#readme"
+}
