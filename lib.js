@@ -1,11 +1,3 @@
-function debounce(func, delay) {
-  let timeoutId
-  return function () {
-    const args = arguments
-    clearTimeout(timeoutId)
-    timeoutId = setTimeout(() => func.apply(null, args), delay)
-  }
-}
 function cloneDeep(value) {
   if (typeof value !== "object" || value === null) {
     return value
@@ -36,7 +28,6 @@ function remove(array, predicate) {
 }
 
 module.exports = {
-  debounce,
   cloneDeep,
   remove,
 }

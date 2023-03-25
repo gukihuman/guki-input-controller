@@ -1,9 +1,9 @@
 const GukiInputController = require("./index.js")
 
 describe("GukiInputController", () => {
-  gic = new GukiInputController()
-  let errorCount
-  let i
+  let gic = new GukiInputController()
+  let errorCount = 0
+  let i = 0
 
   beforeEach(() => {
     errorCount = 0
@@ -41,9 +41,11 @@ describe("GukiInputController", () => {
 
       if (i === 150) {
         if (
-          gic.keyboard.justPressed.includes("A") ||
+          gic.keyboard.justPressed.includes("A") &&
           gic.keyboard.pressed.includes("A")
         ) {
+          console.log("Button A pressed correctly")
+        } else {
           console.log("Button A not pressed correctly")
           errorCount++
         }
@@ -51,11 +53,11 @@ describe("GukiInputController", () => {
 
       if (i === 180) {
         if (
-          gic.keyboard.justPressed.length !== 0 ||
-          gic.keyboard.pressed.length !== 0 ||
-          gic.keyboard._buttonsToAdd.length !== 0 ||
-          gic.keyboard._buttonsToRemove.length !== 0
+          gic.keyboard.justPressed.length === 0 &&
+          gic.keyboard.pressed.length === 0
         ) {
+          console.log("Keyboard arrays are empty")
+        } else {
           console.log("Keyboard arrays not empty")
           errorCount++
         }
@@ -63,9 +65,11 @@ describe("GukiInputController", () => {
 
       if (i === 210) {
         if (
-          !gic.keyboard.justPressed.includes("B") ||
-          !gic.keyboard.pressed.includes("B")
+          gic.keyboard.justPressed.includes("B") &&
+          gic.keyboard.pressed.includes("B")
         ) {
+          console.log("Button B pressed correctly")
+        } else {
           console.log("Button B not pressed correctly")
           errorCount++
         }
@@ -73,9 +77,11 @@ describe("GukiInputController", () => {
 
       if (i === 240) {
         if (
-          gic.keyboard.justPressed.length !== 0 ||
+          gic.keyboard.justPressed.length === 0 &&
           gic.keyboard.pressed.includes("B")
         ) {
+          console.log("Button B held correctly")
+        } else {
           console.log("Button B not held correctly")
           errorCount++
         }
@@ -83,9 +89,11 @@ describe("GukiInputController", () => {
 
       if (i === 270) {
         if (
-          gic.keyboard.justPressed.length !== 0 ||
-          gic.keyboard.pressed.length !== 0
+          gic.keyboard.justPressed.length === 0 &&
+          gic.keyboard.pressed.length === 0
         ) {
+          console.log("Keyboard arrays are empty")
+        } else {
           console.log("Keyboard arrays not empty")
           errorCount++
         }

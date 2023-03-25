@@ -1,4 +1,4 @@
-const { debounce, cloneDeep, remove } = require("./lib.js")
+const { cloneDeep, remove } = require("./lib.js")
 
 class GukiInputController {
   constructor() {
@@ -43,17 +43,8 @@ class GukiInputController {
       axes: [0, 0, 0, 0],
       axesActive: false,
     }
-
-    const debouncedClearBoard = debounce(
-      () => (this.keyboard.pressed = []),
-      500
-    )
-
     addEventListener("keydown", (event) => {
       this.keyboard._buttonsToAdd.push(event.key)
-
-      // in case keyup listener won't register a keyup event (happens rarely)
-      debouncedClearBoard()
     })
     addEventListener("keyup", (event) => {
       this.keyboard._buttonsToRemove.push(event.key)
@@ -66,18 +57,21 @@ class GukiInputController {
       if (!this.keyboard.pressed.includes(buttonToAdd)) {
         this.keyboard.pressed.push(buttonToAdd)
       }
-      remove(this.keyboard._buttonsToAdd, (button) => button === buttonToAdd)
     })
+    let delayRemove = []
     this.keyboard._buttonsToRemove.forEach((buttonToRemove) => {
-      remove(this.keyboard.pressed, (button) => button === buttonToRemove)
-      remove(
-        this.keyboard._buttonsToRemove,
-        (button) => button === buttonToRemove
-      )
+      if (!this.keyboard._buttonsToAdd.includes(buttonToRemove)) {
+        remove(this.keyboard.pressed, (button) => button === buttonToRemove)
+      } else {
+        delayRemove.push(buttonToRemove)
+      }
     })
     this.keyboard.justPressed = this.keyboard.pressed.filter(
       (button) => !this.keyboard._previouslyPressed.includes(button)
     )
+    this.keyboard._buttonsToAdd = []
+    this.keyboard._buttonsToRemove = []
+    delayRemove.forEach((button) => this.keyboard._buttonsToRemove.push(button))
   }
 }
 
