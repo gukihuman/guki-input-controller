@@ -38,10 +38,10 @@ class GukiInputController {
         "Right",
       ],
       connected: false,
-      pressed: [],
       _previouslyPressed: [],
+      pressed: [],
+      justPressed: [],
       axes: [0, 0, 0, 0],
-      axesActive: false,
     }
     addEventListener("keydown", (event) => {
       this.keyboard._buttonsToAdd.push(event.key)
@@ -49,29 +49,44 @@ class GukiInputController {
     addEventListener("keyup", (event) => {
       this.keyboard._buttonsToRemove.push(event.key)
     })
+
+    addEventListener("mousemove", (event) => {
+      this.mouse.x = event.offsetX
+      this.mouse.y = event.offsetY
+    })
+    addEventListener("mousedown", (event) => {
+      this.mouse._buttonsToAdd.push(event.button)
+    })
+    addEventListener("mouseup", (event) => {
+      this.mouse._buttonsToRemove.push(event.button)
+    })
   }
-  update() {
-    // Keyboard
-    this.keyboard._previouslyPressed = cloneDeep(this.keyboard.pressed)
-    this.keyboard._buttonsToAdd.forEach((buttonToAdd) => {
-      if (!this.keyboard.pressed.includes(buttonToAdd)) {
-        this.keyboard.pressed.push(buttonToAdd)
+
+  _processInputDevice(inputDevice) {
+    inputDevice._previouslyPressed = cloneDeep(inputDevice.pressed)
+    inputDevice._buttonsToAdd.forEach((buttonToAdd) => {
+      if (!inputDevice.pressed.includes(buttonToAdd)) {
+        inputDevice.pressed.push(buttonToAdd)
       }
     })
     let delayRemove = []
-    this.keyboard._buttonsToRemove.forEach((buttonToRemove) => {
-      if (!this.keyboard._buttonsToAdd.includes(buttonToRemove)) {
-        remove(this.keyboard.pressed, (button) => button === buttonToRemove)
+    inputDevice._buttonsToRemove.forEach((buttonToRemove) => {
+      if (!inputDevice._buttonsToAdd.includes(buttonToRemove)) {
+        remove(inputDevice.pressed, (button) => button === buttonToRemove)
       } else {
         delayRemove.push(buttonToRemove)
       }
     })
-    this.keyboard.justPressed = this.keyboard.pressed.filter(
-      (button) => !this.keyboard._previouslyPressed.includes(button)
+    inputDevice.justPressed = inputDevice.pressed.filter(
+      (button) => !inputDevice._previouslyPressed.includes(button)
     )
-    this.keyboard._buttonsToAdd = []
-    this.keyboard._buttonsToRemove = []
-    delayRemove.forEach((button) => this.keyboard._buttonsToRemove.push(button))
+    inputDevice._buttonsToAdd = []
+    inputDevice._buttonsToRemove = []
+    delayRemove.forEach((button) => inputDevice._buttonsToRemove.push(button))
+  }
+  update() {
+    this._processInputDevice(this.keyboard)
+    this._processInputDevice(this.mouse)
   }
 }
 
