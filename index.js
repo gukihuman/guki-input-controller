@@ -115,8 +115,13 @@ export default class GukiInputController {
   _processGamepadConnect() {
     if (this.gamepad.connected && !this.gamepad._previouslyConnected) {
       this.gamepad.justConnected = true
-    } else if (!this.gamepad.connected && this.gamepad._previouslyConnected) {
+    } else {
+      this.gamepad.justConnected = false
+    }
+    if (!this.gamepad.connected && this.gamepad._previouslyConnected) {
       this.gamepad.justDisconnected = true
+    } else {
+      this.gamepad.justDisconnected = false
     }
     this.gamepad._previouslyConnected = this.gamepad.connected
   }
