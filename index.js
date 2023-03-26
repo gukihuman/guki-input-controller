@@ -1,4 +1,4 @@
-const { cloneDeep, remove } = require("./lib.js")
+import { cloneDeep, remove } from "./lib.js"
 
 export default class GukiInputController {
   constructor() {

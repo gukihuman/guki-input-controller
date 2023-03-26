@@ -1,4 +1,4 @@
-function cloneDeep(value) {
+export function cloneDeep(value) {
   if (typeof value !== "object" || value === null) {
     return value
   }
@@ -11,7 +11,7 @@ function cloneDeep(value) {
 
   return result
 }
-function remove(array, predicate) {
+export function remove(array, predicate) {
   let index = -1
   let length = array == null ? 0 : array.length
   const result = []
@@ -25,9 +25,4 @@ function remove(array, predicate) {
     }
   }
   return result
-}
-
-module.exports = {
-  cloneDeep,
-  remove,
 }
