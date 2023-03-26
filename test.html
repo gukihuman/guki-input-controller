@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Guki Input Controller</title>
+    <style>
+      #keyboard {
+        background-color: lightgray;
+        border: 1px solid gray;
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+
+      #mouse {
+        background-color: lightgray;
+        border: 1px solid gray;
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+
+      #gamepad {
+        background-color: lightgray;
+        border: 1px solid gray;
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="keyboard">
+      <h2>Keyboard</h2>
+      <p>Pressed Buttons: <span id="keyboard-pressed"></span></p>
+      <p>Just Pressed Buttons: <span id="keyboard-just-pressed"></span></p>
+    </div>
+    <div id="mouse">
+      <h2>Mouse</h2>
+      <p>Pressed Buttons: <span id="mouse-pressed"></span></p>
+      <p>Just Pressed Buttons: <span id="mouse-just-pressed"></span></p>
+      <p>Mouse Position: <span id="mouse-position"></span></p>
+    </div>
+    <div id="gamepad">
+      <h2>Gamepad</h2>
+      <p>Pressed Buttons: <span id="gamepad-pressed"></span></p>
+      <p>Just Pressed Buttons: <span id="gamepad-just-pressed"></span></p>
+      <p>Connected: <span id="gamepad-connected"></span></p>
+      <p>Just Connected: <span id="gamepad-just-connected"></span></p>
+      <p>Just Disconnected: <span id="gamepad-just-disconnected"></span></p>
+      <p>Axes: <span id="gamepad-axes"></span></p>
+    </div>
+
+    <script type="module">
+      import GukiInputController from "./index.js"
+
+      const inputController = new GukiInputController()
+
+      function update() {
+        inputController.update()
+
+        // Update keyboard info
+        const keyboardPressed = document.getElementById("keyboard-pressed")
+        const keyboardJustPressed = document.getElementById(
+          "keyboard-just-pressed"
+        )
+        keyboardPressed.innerText = inputController.keyboard.pressed.join(", ")
+        keyboardJustPressed.innerText =
+          inputController.keyboard.justPressed.join(", ")
+
+        // Update mouse info
+        const mousePressed = document.getElementById("mouse-pressed")
+        const mouseJustPressed = document.getElementById("mouse-just-pressed")
+        const mousePosition = document.getElementById("mouse-position")
+        mousePressed.innerText = inputController.mouse.pressed.join(", ")
+        mouseJustPressed.innerText =
+          inputController.mouse.justPressed.join(", ")
+        mousePosition.innerText = `${inputController.mouse.x}, ${inputController.mouse.y}`
+
+        // Update gamepad info
+        const gamepadPressed = document.getElementById("gamepad-pressed")
+        const gamepadJustPressed = document.getElementById(
+          "gamepad-just-pressed"
+        )
+        const gamepadConnected = document.getElementById("gamepad-connected")
+        const gamepadJustConnected = document.getElementById(
+          "gamepad-just-connected"
+        )
+        const gamepadJustDisconnected = document.getElementById(
+          "gamepad-just-disconnected"
+        )
+        const gamepadAxes = document.getElementById("gamepad-axes")
+        gamepadPressed.innerText = inputController.gamepad.pressed.join(", ")
+        gamepadJustPressed.innerText =
+          inputController.gamepad.justPressed.join(", ")
+        gamepadConnected.innerText = inputController.gamepad.connected
+          ? "Yes"
+          : "No"
+        gamepadJustConnected.innerText = inputController.gamepad.justConnected
+          ? "Yes"
+          : "No"
+        gamepadJustDisconnected.innerText = inputController.gamepad
+          .justDisconnected
+          ? "Yes"
+          : "No"
+        gamepadAxes.innerText = inputController.gamepad.axes.join(", ")
+      }
+
+      // Call the update function every frame
+      setInterval(update, 32)
+    </script>
+  </body>
+</html>
