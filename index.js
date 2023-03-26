@@ -1,6 +1,6 @@
 const { cloneDeep, remove } = require("./lib.js")
 
-class GukiInputController {
+export default class GukiInputController {
   constructor() {
     this.keyboard = {
       _buttonsToAdd: [],
@@ -129,5 +129,3 @@ class GukiInputController {
     this._processGamepadConnect()
   }
 }
-
-module.exports = GukiInputController

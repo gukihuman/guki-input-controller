@@ -1,6 +1,6 @@
 {
   "name": "guki-input-controller",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "This is a lightweight JavaScript module that provides a simple input controller class for loop-based game development. It supports keyboard, mouse, and gamepad.",
   "main": "index.js",
   "type": "module",
@@ -24,12 +24,18 @@
   },
   "homepage": "https://github.com/ivan-f-sokolov/guki-input-controller#readme",
   "devDependencies": {
+    "@babel/core": "^7.21.3",
+    "@babel/preset-env": "^7.20.2",
+    "babel-jest": "^29.5.0",
     "jest": "^29.5.0",
     "jest-environment-jsdom": "^29.5.0",
     "node": "^19.8.1"
   },
   "jest": {
     "testEnvironment": "jsdom",
-    "testTimeout": 0
+    "testTimeout": 0,
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    }
   }
 }

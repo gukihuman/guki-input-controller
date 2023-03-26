@@ -1,4 +1,4 @@
-const GukiInputController = require("./index.js")
+import GukiInputController from "./index.js"
 
 describe("GukiInputController", () => {
   let gic
