@@ -37,10 +37,15 @@ class GukiInputController {
         "Left",
         "Right",
       ],
-      connected: false,
       _previouslyPressed: [],
       pressed: [],
       justPressed: [],
+
+      _previouslyConnected: false,
+      connected: false,
+      justConnected: false,
+      justDisconnected: false,
+
       axes: [0, 0, 0, 0],
     }
     addEventListener("keydown", (event) => {
@@ -49,7 +54,6 @@ class GukiInputController {
     addEventListener("keyup", (event) => {
       this.keyboard._buttonsToRemove.push(event.key)
     })
-
     addEventListener("mousemove", (event) => {
       this.mouse.x = event.offsetX
       this.mouse.y = event.offsetY
@@ -60,8 +64,14 @@ class GukiInputController {
     addEventListener("mouseup", (event) => {
       this.mouse._buttonsToRemove.push(event.button)
     })
+    addEventListener("gamepadconnected", (event) => {
+      this.gamepad.connected = true
+    })
+    addEventListener("gamepaddisconnected", (event) => {
+      this.gamepad.connected = false
+    })
   }
-
+  // Keyboard and mouse
   _processInputDevice(inputDevice) {
     inputDevice._previouslyPressed = cloneDeep(inputDevice.pressed)
     inputDevice._buttonsToAdd.forEach((buttonToAdd) => {
@@ -84,9 +94,39 @@ class GukiInputController {
     inputDevice._buttonsToRemove = []
     delayRemove.forEach((button) => inputDevice._buttonsToRemove.push(button))
   }
+  _processGamepad() {
+    const gamepads = navigator.getGamepads()
+    if (gamepads[0]) {
+      const buttons = gamepads[0].buttons
+      this.gamepad._previouslyPressed = cloneDeep(this.gamepad.pressed)
+      this.gamepad.pressed = []
+      for (let i = 0; i < buttons.length; i++) {
+        if (buttons[i].pressed) {
+          const buttonName = this.gamepad.buttonList[i]
+          this.gamepad.pressed.push(buttonName)
+        }
+      }
+      this.gamepad.justPressed = this.gamepad.pressed.filter(
+        (button) => !this.gamepad._previouslyPressed.includes(button)
+      )
+      this.gamepad.axes = gamepads[0].axes
+    }
+  }
+  _processGamepadConnect() {
+    if (this.gamepad.connected && !this.gamepad._previouslyConnected) {
+      this.gamepad.justConnected = true
+    } else if (!this.gamepad.connected && this.gamepad._previouslyConnected) {
+      this.gamepad.justDisconnected = true
+    }
+    this.gamepad._previouslyConnected = this.gamepad.connected
+  }
   update() {
     this._processInputDevice(this.keyboard)
     this._processInputDevice(this.mouse)
+    if (this.gamepad.connected) {
+      this._processGamepad()
+    }
+    this._processGamepadConnect()
   }
 }
 

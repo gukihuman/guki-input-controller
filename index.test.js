@@ -10,7 +10,6 @@ describe("GukiInputController", () => {
     errorCount = 0
     i = 0
   })
-
   test("Keyboard", (done) => {
     const keydownEvents = {
       123: "A",
@@ -20,13 +19,11 @@ describe("GukiInputController", () => {
       125: "A",
       261: "B",
     }
-
     let mainTestLoop = setInterval(() => {
       // run gic.update() every 30 iterations
       if (i % 30 === 0) {
         gic.update()
       }
-
       // imitate button presses
       if (keydownEvents[i]) {
         const button = keydownEvents[i]
@@ -38,7 +35,6 @@ describe("GukiInputController", () => {
         const event = new KeyboardEvent("keyup", { key: button })
         window.dispatchEvent(event)
       }
-
       if (i === 150) {
         if (
           gic.keyboard.justPressed.includes("A") &&
@@ -50,7 +46,6 @@ describe("GukiInputController", () => {
           errorCount++
         }
       }
-
       if (i === 180) {
         if (
           gic.keyboard.justPressed.length === 0 &&
@@ -62,7 +57,6 @@ describe("GukiInputController", () => {
           errorCount++
         }
       }
-
       if (i === 210) {
         if (
           gic.keyboard.justPressed.includes("B") &&
@@ -74,7 +68,6 @@ describe("GukiInputController", () => {
           errorCount++
         }
       }
-
       if (i === 240) {
         if (
           gic.keyboard.justPressed.length === 0 &&
@@ -86,7 +79,6 @@ describe("GukiInputController", () => {
           errorCount++
         }
       }
-
       if (i === 270) {
         if (
           gic.keyboard.justPressed.length === 0 &&
@@ -105,7 +97,6 @@ describe("GukiInputController", () => {
       i++
     }, 1000 / 300) // test run for 1 second
   })
-
   test("Mouse", (done) => {
     const mouseDownEvents = {
       123: 0, // left button down
@@ -119,13 +110,11 @@ describe("GukiInputController", () => {
       5: { offsetX: 50, offsetY: 50 },
       45: { offsetX: 500, offsetY: 500 },
     }
-
     let mainTestLoop = setInterval(() => {
       // run gic.update() every 30 iterations
       if (i % 30 === 0) {
         gic.update()
       }
-
       // imitate button presses
       if (mouseDownEvents[i] !== undefined) {
         const button = mouseDownEvents[i]
@@ -144,7 +133,6 @@ describe("GukiInputController", () => {
         event.offsetY = offsetY
         window.dispatchEvent(event)
       }
-
       if (i === 30) {
         if (gic.mouse.x === 50 && gic.mouse.y === 50) {
           console.log("x and y coordinates updated correctly")
@@ -153,7 +141,6 @@ describe("GukiInputController", () => {
           errorCount++
         }
       }
-
       if (i === 60) {
         if (gic.mouse.x === 500 && gic.mouse.y === 500) {
           console.log("x and y coordinates updated correctly")
@@ -162,7 +149,6 @@ describe("GukiInputController", () => {
           errorCount++
         }
       }
-
       if (i === 150) {
         if (
           gic.mouse.justPressed.includes(0) &&
@@ -174,7 +160,6 @@ describe("GukiInputController", () => {
           errorCount++
         }
       }
-
       if (i === 180) {
         if (
           gic.mouse.justPressed.length === 0 &&
@@ -186,7 +171,6 @@ describe("GukiInputController", () => {
           errorCount++
         }
       }
-
       if (i === 210) {
         if (
           gic.mouse.justPressed.includes(2) &&
@@ -198,7 +182,6 @@ describe("GukiInputController", () => {
           errorCount++
         }
       }
-
       if (i === 240) {
         if (
           gic.mouse.justPressed.length === 0 &&
@@ -216,7 +199,6 @@ describe("GukiInputController", () => {
           errorCount++
         }
       }
-
       if (i === 270) {
         if (
           gic.mouse.justPressed.length === 0 &&
@@ -225,6 +207,121 @@ describe("GukiInputController", () => {
           console.log("Mouse arrays are empty")
         } else {
           console.log("Mouse arrays not empty")
+          errorCount++
+        }
+        clearInterval(mainTestLoop)
+        expect(errorCount).toBe(0)
+        done()
+      }
+
+      i++
+    }, 1000 / 300) // test run for 1 second
+  })
+  test("Gamepad", (done) => {
+    // create a mock gamepad
+    const gamepad = {
+      // A and B buttons
+      buttons: [{ pressed: false }, { pressed: false }],
+      axes: [0, 0.5, -0.5, 0],
+    }
+    gic.gamepad.connected = true
+    // mock the getGamepads function to return the mock gamepad
+    window.navigator.getGamepads = () => [gamepad]
+
+    let mainTestLoop = setInterval(() => {
+      // run gic.update() every 30 iterations
+      if (i % 30 === 0) {
+        gic.update()
+      }
+
+      if (i === 30) {
+        if (
+          gic.gamepad.axes[0] === 0 &&
+          gic.gamepad.axes[1] === 0.5 &&
+          gic.gamepad.axes[2] === -0.5 &&
+          gic.gamepad.axes[3] === 0
+        ) {
+          console.log("Gamepad axes updated correctly")
+        } else {
+          console.log("Gamepad axes not updated correctly")
+          errorCount++
+        }
+      }
+      if (i === 43) {
+        gamepad.axes = [0, 0.3, -0.5, 0]
+      }
+      if (i === 60) {
+        if (gic.gamepad.axes[1] === 0.3) {
+          console.log("Gamepad axes updated correctly")
+        } else {
+          console.log("Gamepad axes not updated correctly")
+          errorCount++
+        }
+      }
+      if (i === 123) {
+        gamepad.buttons = [{ pressed: true }, { pressed: false }]
+      }
+      if (i === 150) {
+        if (
+          gic.gamepad.justPressed.includes("A") &&
+          gic.gamepad.pressed.includes("A")
+        ) {
+          console.log("Button A pressed correctly")
+        } else {
+          console.log("Button A not pressed correctly")
+          errorCount++
+        }
+      }
+      if (i === 173) {
+        gamepad.buttons = [{ pressed: false }, { pressed: false }]
+      }
+      if (i === 180) {
+        if (
+          gic.gamepad.justPressed.length === 0 &&
+          gic.gamepad.pressed.length === 0
+        ) {
+          console.log("Gamepad buttons arrays are empty")
+        } else {
+          console.log("Gamepad buttons arrays not empty")
+          errorCount++
+        }
+      }
+      if (i === 193) {
+        gamepad.buttons = [{ pressed: false }, { pressed: true }]
+      }
+      if (i === 210) {
+        if (
+          gic.gamepad.justPressed.includes("B") &&
+          gic.gamepad.pressed.includes("B")
+        ) {
+          console.log("Button B pressed correctly")
+        } else {
+          console.log("Button B not pressed correctly")
+          errorCount++
+        }
+      }
+      if (i === 240) {
+        if (
+          gic.gamepad.justPressed.length === 0 &&
+          gic.gamepad.pressed.includes("B")
+        ) {
+          console.log("Button B held correctly")
+        } else {
+          console.log("Button B not held correctly")
+          errorCount++
+        }
+      }
+      if (i === 253) {
+        gamepad.buttons = [{ pressed: false }, { pressed: false }]
+      }
+      if (i === 270) {
+        if (
+          gic.gamepad.justPressed.length === 0 &&
+          gic.gamepad.pressed.length === 0
+        ) {
+          console.log("Gamepad buttons arrays are empty")
+        } else {
+          console.log("Gamepad buttons arrays not empty")
           errorCount++
         }
         clearInterval(mainTestLoop)
