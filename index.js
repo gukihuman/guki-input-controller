@@ -1,7 +1,7 @@
 import { cloneDeep, remove } from "./lib.js"
 
 export default class GukiInputController {
-  constructor() {
+  constructor(viewport = document.documentElement) {
     this.keyboard = {
       _buttonsToAdd: [],
       _buttonsToRemove: [],
@@ -55,8 +55,8 @@ export default class GukiInputController {
       this.keyboard._buttonsToRemove.push(event.key)
     })
     addEventListener("mousemove", (event) => {
-      this.mouse.x = event.offsetX
-      this.mouse.y = event.offsetY
+      this.mouse.x = event.clientX - viewport.getBoundingClientRect().left
+      this.mouse.y = event.clientY - viewport.getBoundingClientRect().top
     })
     addEventListener("mousedown", (event) => {
       this.mouse._buttonsToAdd.push(event.button)

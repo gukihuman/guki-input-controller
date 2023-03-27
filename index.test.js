@@ -107,8 +107,8 @@ describe("GukiInputController", () => {
       261: 2, // right button up
     }
     const mouseMoveEvents = {
-      5: { offsetX: 50, offsetY: 50 },
-      45: { offsetX: 500, offsetY: 500 },
+      5: { clientX: 50, clientY: 50 },
+      45: { clientX: 500, clientY: 500 },
     }
     let mainTestLoop = setInterval(() => {
       // run gic.update() every 30 iterations
@@ -127,10 +127,8 @@ describe("GukiInputController", () => {
         window.dispatchEvent(event)
       }
       if (mouseMoveEvents[i]) {
-        const { offsetX, offsetY } = mouseMoveEvents[i]
-        const event = new MouseEvent("mousemove")
-        event.offsetX = offsetX
-        event.offsetY = offsetY
+        const { clientX, clientY } = mouseMoveEvents[i]
+        const event = new MouseEvent("mousemove", { clientX, clientY })
         window.dispatchEvent(event)
       }
       if (i === 30) {
