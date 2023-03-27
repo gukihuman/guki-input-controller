@@ -63,6 +63,16 @@ export default class GukiInputController {
       addEventListener("mousemove", (event) => {
         this.mouse.x = event.clientX - viewport.getBoundingClientRect().left
         this.mouse.y = event.clientY - viewport.getBoundingClientRect().top
+        if (this.mouse.x < 0) this.mouse.x = 0
+        if (this.mouse.y < 0) this.mouse.y = 0
+        if (this.mouse.x > viewport.getBoundingClientRect().width) {
+          this.mouse.x = viewport.getBoundingClientRect().width
+        }
+        if (this.mouse.y > viewport.getBoundingClientRect().height) {
+          this.mouse.y = viewport.getBoundingClientRect().height
+        }
+        this.mouse.x = Math.floor(this.mouse.x)
+        this.mouse.y = Math.floor(this.mouse.y)
       })
     }
     addEventListener("mousedown", (event) => {
