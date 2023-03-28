@@ -1,56 +1,16 @@
 # guki-input-controller
 
-_version: 0.8.0_
-
 This is a lightweight JavaScript module that provides a simple input controller class for loop-based game development. It supports keyboard, mouse, and gamepad.
 
----
-
-<br>
-
-## Quick overview
-
-<br>
-
-> **update()** _method called from game loop_ <br>
-
-<br>
-
-Each input device has: <br>
-
-> **pressed** _array for held-down buttons_ <br> **justPressed** _array for one-time taps_
-
-<br>
-
-Mouse also has: <br>
-
-> **x** _and_ **y** _coordinates with viewport option_
-
-<br>
-
-Gamepad also has: <br>
-
-> **axes** _array of sticks positions_ <br> **connected** _bool for continuous check_ <br> **justConnected** _bool for one-time check_ <br> **justDisconnected** _bool for one-tome check_
-
----
-
-<br>
+_current version: 0.8.0_
 
 ## Installation
-
-<br>
 
 ```
 npm install guki-input-controller
 ```
 
----
-
-<br>
-
 ## Usage
-
-<br>
 
 ```javascript
 import GukiInputController from "guki-input-controller"
@@ -69,17 +29,9 @@ function gameLoop() {
 }
 ```
 
----
-
-<br>
-
 ## Methods
 
-<br>
-
-> #### **update()**
-
-<br>
+### **update()**
 
 The controller has only one method, which needs to be called in the game loop. Make sure to update the controller before checking for its states.
 
@@ -91,23 +43,11 @@ function gameLoop() {
 }
 ```
 
----
-
-<br>
-
 ## Properties
 
-<br>
+### **keyboard.pressed**
 
-### Keyboard
-
-<br>
-
-> #### **keyboard.pressed**
-
-> #### **keyboard.justPressed**
-
-<br>
+### **keyboard.justPressed**
 
 While **pressed** is used for held-down buttons, **justPressed** for one-time taps. Let's say we pressed two buttons. On first iteration we would have this controller state :
 
@@ -147,19 +87,9 @@ if (gic.keyboard.justPressed.includes("B")) {
 }
 ```
 
----
+### **mouse.pressed**
 
-<br>
-
-### Mouse
-
-<br>
-
-> #### **mouse.pressed**
-
-> #### **mouse.justPressed**
-
-<br>
+### **mouse.justPressed**
 
 Works similarly to the keyboard, but instead of using strings, it uses integers. These integers are constants that are predefined by the browser's JavaScript environment and are related to specific mouse buttons. In this example, both the left and right buttons have been pressed for the first time.
 
@@ -174,15 +104,9 @@ mouse.justPressed = [0, 2]
 **3** - Back <br>
 **4** - Forward <br>
 
----
+### **mouse.x**
 
-<br>
-
-> #### **mouse.x**
-
-> #### **mouse.y**
-
-<br>
+### **mouse.y**
 
 By default, coordinates are screen-relative.
 
@@ -209,19 +133,9 @@ function gameLoop() {
 }
 ```
 
----
+### **gamepad.pressed**
 
-<br>
-
-### Gamepad
-
-<br>
-
-> #### **gamepad.pressed**
-
-> #### **gamepad.justPressed**
-
-<br>
+### **gamepad.justPressed**
 
 Works just as the keyboard, but instead of symbols, it uses specific button names based on the Xbox button map.
 
@@ -230,34 +144,34 @@ gamepad.pressed = ["Start", "LB"]
 gamepad.justPressed = ["Start", "LB"]
 ```
 
-Full button map:
+### **gamepad.buttonMap**
 
-**A** <br>
-**B** <br>
-**X** <br>
-**Y** <br>
-**LB** <br>
-**RB** <br>
-**LT** <br>
-**RT** <br>
-**Start** <br>
-**Menu** <br>
-**LS** <br>
-**RS** <br>
-**Up** <br>
-**Down** <br>
-**Left** <br>
-**Right** <br>
+Default Xbox-based button map:
 
-_In case this module gains more popularity, additional gamepads may be added. However, at present, if you require a different button map, you would need to implement remapping on your own._
+```javascript
+gic.gamepad.buttonMap = [
+  "A",
+  "B",
+  "X",
+  "Y",
+  "LB",
+  "RB",
+  "LT",
+  "RT",
+  "Start",
+  "Menu",
+  "LS",
+  "RS",
+  "Up",
+  "Down",
+  "Left",
+  "Right",
+]
+```
 
----
+_If this module becomes more popular, it may be extended to support additional gamepads. However, currently, if you need a different button map, you will need to implement the remapping yourself. You can do this by modifying the **buttonMap** value to match your specific buttons._
 
-<br>
-
-> #### **gamepad.axes**
-
-<br>
+### **gamepad.axes**
 
 An array of four floating-point numbers between -1 and 1. The first and second correspond to the **X** and **Y** axes of the left stick, while the third and fourth respectively of the right.
 
@@ -280,17 +194,11 @@ function gameLoop() {
 }
 ```
 
----
+### **gamepad.connected**
 
-<br>
+### **gamepad.justConnected**
 
-> #### **gamepad.connected**
-
-> #### **gamepad.justConnected**
-
-> #### **gamepad.justDisconnected**
-
-<br>
+### **gamepad.justDisconnected**
 
 Works similarly to the **pressed** and **justPressed**, but instead of relying on strings or integers, it uses booleans.
 
@@ -310,8 +218,6 @@ if (gic.gamepad.justConnected) {
 ```
 
 ---
-
-<br>
 
 ## License
 
