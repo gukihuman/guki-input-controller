@@ -19,7 +19,7 @@ export default class GukiInputController {
       y: 0,
     }
     this.gamepad = {
-      buttonList: [
+      buttonMap: [
         "A",
         "B",
         "X",
@@ -119,7 +119,7 @@ export default class GukiInputController {
       this.gamepad.pressed = []
       for (let i = 0; i < buttons.length; i++) {
         if (buttons[i].pressed) {
-          const buttonName = this.gamepad.buttonList[i]
+          const buttonName = this.gamepad.buttonMap[i]
           this.gamepad.pressed.push(buttonName)
         }
       }
