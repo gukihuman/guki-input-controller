@@ -1,6 +1,6 @@
 {
   "name": "guki-input-controller",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "description": "This is a lightweight JavaScript module that provides a simple input controller class for loop-based game development. It supports keyboard, mouse, and gamepad.",
   "main": "index.js",
   "type": "module",
