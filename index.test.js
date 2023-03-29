@@ -7,6 +7,7 @@ describe("GukiInputController", () => {
 
   beforeEach(() => {
     gic = new GukiInputController()
+    gic.initialize()
     errorCount = 0
     i = 0
   })

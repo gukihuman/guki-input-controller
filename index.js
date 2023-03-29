@@ -1,7 +1,7 @@
 import { cloneDeep, remove } from "./lib.js"
 
 export default class GukiInputController {
-  constructor(viewport = "default") {
+  constructor() {
     this.keyboard = {
       _buttonsToAdd: [],
       _buttonsToRemove: [],
@@ -48,6 +48,8 @@ export default class GukiInputController {
 
       axes: [0, 0, 0, 0],
     }
+  }
+  initialize(viewport = "default") {
     addEventListener("keydown", (event) => {
       this.keyboard._buttonsToAdd.push(event.key)
     })
@@ -150,4 +152,8 @@ export default class GukiInputController {
     }
     this._processGamepadConnect()
   }
+}
+
+export function printMsg() {
+  console.log("guki-input-controller installed successfully!")
 }

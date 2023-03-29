@@ -4,6 +4,72 @@ This is a lightweight JavaScript module that provides a simple input controller 
 
 _current version: 0.8.0_
 
+## Overview
+
+### Methods
+
+#### **initialize(** _viewport = "default"_ **)**
+
+This function sets up the controller. It has to be called once before a game loop. The **_viewport_** argument chooses the DOM element for mouse coordinates. The default **_viewport_** makes them screen-relative.
+
+#### **update()**
+
+This function has to be called in the game loop.
+
+### Properties
+
+#### **keyboard.pressed**
+
+An array of strings that contains the keyboard buttons currently pressed.
+
+#### **keyboard.justPressed**
+
+An array of strings that contains the keyboard buttons that have just been pressed in the current iteration.
+
+#### **mouse.pressed**
+
+An array of integers that represent the mouse buttons currently pressed.
+
+#### **mouse.justPressed**
+
+An array of integers that represent the mouse buttons that have just been pressed in the current iteration.
+
+#### **mouse.x**
+
+A number that represents the x-coordinate of the mouse cursor on the screen or on a viewport, which is a specific DOM element that shows part of the document.
+
+#### **mouse.y:**
+
+Same as **mouse.x** but for y-coordinate.
+
+#### **gamepad.pressed**
+
+An array of strings that contains the gamepad buttons currently pressed.
+
+#### **gamepad.justPressed**
+
+An array of strings that contains the gamepad buttons that have just been pressed in the current iteration.
+
+#### **gamepad.buttonMap**
+
+An array of strings that contains the names of the gamepad buttons based on the Xbox button map. It can be modified to support different gamepads.
+
+#### **gamepad.axes**
+
+An array of four numbers between **-1** and **1** that represent the **x** and **y** axes of the left and right sticks of the gamepad.
+
+#### **gamepad.connected**
+
+A boolean that indicates whether a gamepad is connected or not.
+
+#### **gamepad.justConnected**
+
+A boolean that indicates whether a gamepad has just been connected in the current iteration or not.
+
+#### **gamepad.justDisconnected**
+
+A boolean that indicates whether a gamepad has just been disconnected in the current iteration or not.
+
 ## Installation
 
 ```
@@ -16,6 +82,8 @@ npm install guki-input-controller
 import GukiInputController from "guki-input-controller"
 
 const gic = new GukiInputController()
+
+gic.initialize()
 
 function gameLoop() {
   gic.update()
@@ -31,17 +99,26 @@ function gameLoop() {
 
 ## Methods
 
-### **update()**
+### **initialize(** _viewport = "default"_ **)**
 
-The controller has only one method, which needs to be called in the game loop. Make sure to update the controller before checking for its states.
+This function has to be called once before a game loop is started. The **_viewport_** argument specifies the DOM element for mouse **x** and **y** coordinates _(a code example with them can be found further down in this document)_. The default **_viewport_** makes the mouse coordinates relative to the screen. Some **addEventListener** methods are added behind the scenes to update the controller states, so **initialize()** has to be called within the global scope with the **window** object.
 
 ```javascript
+const gic = new GukiInputController()
+
+// The window object has to exist in some parent scope
+gic.initialize()
+
 function gameLoop() {
   gic.update()
 
   // check controller states
 }
 ```
+
+### **update()**
+
+This function has to be called in the game loop before the controller states are checked, as shown in the previous example.
 
 ## Properties
 
@@ -108,28 +185,28 @@ mouse.justPressed = [0, 2]
 
 ### **mouse.y**
 
-By default, coordinates are screen-relative.
+By default, coordinates are screen-relative. However, you can associate them with a specific DOM object, usually the application's viewport. Unlike **offsetX** and **offsetY** on a **MouseEvent**, these coordinates will work **regardless of how many other objects are present on top** by their z-index. To associate coordinates with the viewport, provide it as an argument to **initialize()** method.
 
 ```javascript
 mouse.x = 228
 mouse.y = 282
 ```
 
-However, you can associate the coordinates with a specific DOM object, typically the application's viewport. Unlike offsetX and Y on the typical mouse move event, these coordinates will work **regardless of how many other objects are present on top**, as determined by their z-index. To associate with the viewport, provide it as an argument when instantiating the controller.
-
 ```javascript
 import GukiInputController from "guki-input-controller"
+
+const gic = new GukiInputController()
 
 // Assuming you have a DOM element with the "viewport" id
 const viewport = getElementById("viewport")
 
-const gic = new GukiInputController(viewport)
+gic.initialize(viewport)
 
 function gameLoop() {
   gic.update()
 
   console.log(gic.mouse.x + " " + gic.mouse.y)
-  // These coordinates are related to the viewport DOM element.
+  // These coordinates are going to be relative to the viewport DOM element
 }
 ```
 
@@ -169,7 +246,7 @@ gic.gamepad.buttonMap = [
 ]
 ```
 
-_If this module becomes more popular, it may be extended to support additional gamepads. However, currently, if you need a different button map, you will need to implement the remapping yourself. You can do this by modifying the **buttonMap** value to match your specific buttons._
+_If this module becomes more popular, it may be extended to support additional gamepads. However, currently, if you need a different button map, you will need to implement the remapping yourself. You can do this by modifying the **buttonMap** value to match your specific buttons. Doesn`t matter when it is changed, before or after the initialization._
 
 ### **gamepad.axes**
 
