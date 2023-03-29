@@ -2,7 +2,7 @@
 
 This is a lightweight JavaScript module that provides a simple input controller class for loop-based game development. It supports keyboard, mouse, and gamepad.
 
-_current version: 0.8.4_
+_current version: 0.8.5_
 
 ## Overview
 
@@ -287,7 +287,7 @@ _Please note that the code example above does not normalize the movement in the 
 
 ### **gamepad.justDisconnected**
 
-Works similarly to the **pressed** and **justPressed**, but instead of arrays, it's just booleans.
+Works similarly to the **pressed** and **justPressed**, but instead of arrays, it's booleans.
 
 ```javascript
 gamepad.connected = true
@@ -308,6 +308,6 @@ if (gic.gamepad.justConnected) {
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 © 2023 Ivan F. Sokolov
