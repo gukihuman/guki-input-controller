@@ -2,7 +2,7 @@
 
 This is a lightweight JavaScript module that provides a simple input controller class for loop-based game development. It supports keyboard, mouse, and gamepad.
 
-_current version: 0.8.0_
+_current version: 0.8.3_
 
 ## Overview
 
