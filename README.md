@@ -2,7 +2,7 @@
 
 This is a lightweight JavaScript module that provides a simple input controller class for loop-based game development. It supports keyboard, mouse, and gamepad.
 
-_current version: 0.8.3_
+_current version: 0.8.4_
 
 ## Overview
 
@@ -160,7 +160,7 @@ if (gic.keyboard.pressed.includes("A")) {
 }
 if (gic.keyboard.justPressed.includes("B")) {
   console.log("Switch weapons")
-  // false, won`t work
+  // false, won't work
 }
 ```
 
@@ -214,7 +214,7 @@ function gameLoop() {
 
 ### **gamepad.justPressed**
 
-Works just as the keyboard, but instead of symbols, it uses specific button names based on the Xbox button map.
+Works just as the keyboard. It uses specific button names based on the Xbox button map.
 
 ```javascript
 gamepad.pressed = ["Start", "LB"]
@@ -223,7 +223,7 @@ gamepad.justPressed = ["Start", "LB"]
 
 ### **gamepad.buttonMap**
 
-Default Xbox-based button map:
+You can customize this value to set your own button map. This is possible either before or after the initialization. Here is the default Xbox-based button map:
 
 ```javascript
 gic.gamepad.buttonMap = [
@@ -246,24 +246,32 @@ gic.gamepad.buttonMap = [
 ]
 ```
 
-_If this module becomes more popular, it may be extended to support additional gamepads. However, currently, if you need a different button map, you will need to implement the remapping yourself. You can do this by modifying the **buttonMap** value to match your specific buttons. Doesn`t matter when it is changed, before or after the initialization._
-
 ### **gamepad.axes**
 
-An array of four floating-point numbers between -1 and 1. The first and second correspond to the **X** and **Y** axes of the left stick, while the third and fourth respectively of the right.
+An array of four floating-point numbers between **-1** and **1**. The first and second correspond to the **x** and **y** axes of the left stick. The third and fourth respectively of the right stick.
+
+> **[** left stick **x** , left stick **y** , right stick **x** , right stick **y** **]**
 
 ```javascript
 gamepad.axes = [0, 1, -0.912, 0.13]
 ```
 
 ```javascript
+import GukiInputController from "guki-input-controller"
+
+const gic = new GukiInputController()
+
+gic.initialize()
+
 const speed = 100
 
 function move() {
-  // Assuming you have an "entity" variable which is drawn based on its x and y
+  // Assuming you have an entity whose x and y properties define its position
+  // The entity’s movement is controlled by the left stick
   entity.x += speed * gic.gamepad.axes[0]
   entity.y += speed * gic.gamepad.axes[1]
 }
+
 function gameLoop() {
   gic.update()
 
@@ -271,13 +279,15 @@ function gameLoop() {
 }
 ```
 
+_Please note that the code example above does not normalize the movement in the diagonal direction for simplicity._
+
 ### **gamepad.connected**
 
 ### **gamepad.justConnected**
 
 ### **gamepad.justDisconnected**
 
-Works similarly to the **pressed** and **justPressed**, but instead of relying on strings or integers, it uses booleans.
+Works similarly to the **pressed** and **justPressed**, but instead of arrays, it's just booleans.
 
 ```javascript
 gamepad.connected = true
