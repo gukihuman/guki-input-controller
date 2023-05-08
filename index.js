@@ -49,7 +49,7 @@ export default class GukiInputController {
       axes: [0, 0, 0, 0],
     }
   }
-  initialize(viewport = "default") {
+  init(viewport = "default") {
     addEventListener("keydown", (event) => {
       this.keyboard._buttonsToAdd.push(event.key)
     })

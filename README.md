@@ -2,13 +2,13 @@
 
 This is a lightweight JavaScript module that provides a simple input controller class for loop-based game development. It supports keyboard, mouse, and gamepad.
 
-_current version: 0.8.5_
+_current version: 0.8.6_
 
 ## Overview
 
 ### Methods
 
-#### **initialize(** _viewport = "default"_ **)**
+#### **init(** _viewport = "default"_ **)**
 
 This function sets up the controller. It has to be called once before a game loop. The **_viewport_** argument chooses the DOM element for mouse coordinates. The default **_viewport_** makes them screen-relative.
 
@@ -83,7 +83,7 @@ import GukiInputController from "guki-input-controller"
 
 const gic = new GukiInputController()
 
-gic.initialize()
+gic.init()
 
 function gameLoop() {
   gic.update()
@@ -99,15 +99,15 @@ function gameLoop() {
 
 ## Methods
 
-### **initialize(** _viewport = "default"_ **)**
+### **init(** _viewport = "default"_ **)**
 
-This function has to be called once before a game loop is started. The **_viewport_** argument specifies the DOM element for mouse **x** and **y** coordinates _(a code example with them can be found further down in this document)_. The default **_viewport_** makes the mouse coordinates relative to the screen. Some **addEventListener** methods are added behind the scenes to update the controller states, so **initialize()** has to be called within the global scope with the **window** object.
+This function has to be called once before a game loop is started. The **_viewport_** argument specifies the DOM element for mouse **x** and **y** coordinates _(a code example with them can be found further down in this document)_. The default **_viewport_** makes the mouse coordinates relative to the screen. Some **addEventListener** methods are added behind the scenes to update the controller states, so **init()** has to be called within the global scope with the **window** object.
 
 ```javascript
 const gic = new GukiInputController()
 
 // The window object has to exist in some parent scope
-gic.initialize()
+gic.init()
 
 function gameLoop() {
   gic.update()
@@ -185,7 +185,7 @@ mouse.justPressed = [0, 2]
 
 ### **mouse.y**
 
-By default, coordinates are screen-relative. However, you can associate them with a specific DOM object, usually the application's viewport. Unlike **offsetX** and **offsetY** on a **MouseEvent**, these coordinates will work **regardless of how many other objects are present on top** by their z-index. To associate coordinates with the viewport, provide it as an argument to **initialize()** method.
+By default, coordinates are screen-relative. However, you can associate them with a specific DOM object, usually the application's viewport. Unlike **offsetX** and **offsetY** on a **MouseEvent**, these coordinates will work **regardless of how many other objects are present on top** by their z-index. To associate coordinates with the viewport, provide it as an argument to **init()** method.
 
 ```javascript
 mouse.x = 228
@@ -200,7 +200,7 @@ const gic = new GukiInputController()
 // Assuming you have a DOM element with the "viewport" id
 const viewport = getElementById("viewport")
 
-gic.initialize(viewport)
+gic.init(viewport)
 
 function gameLoop() {
   gic.update()
@@ -261,7 +261,7 @@ import GukiInputController from "guki-input-controller"
 
 const gic = new GukiInputController()
 
-gic.initialize()
+gic.init()
 
 const speed = 100
 
