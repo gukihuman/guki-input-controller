@@ -80,6 +80,14 @@ describe("GukiInputController", () => {
           errorCount++
         }
       }
+      if (i === 250) {
+        if (gic.lastActiveDevice === "keyboard") {
+          console.log("Last active device is keyboard")
+        } else {
+          console.log("Last active device is not keyboard")
+          errorCount++
+        }
+      }
       if (i === 270) {
         if (
           gic.keyboard.justPressed.length === 0 &&
@@ -198,6 +206,14 @@ describe("GukiInputController", () => {
           errorCount++
         }
       }
+      if (i === 250) {
+        if (gic.lastActiveDevice === "mouse") {
+          console.log("Last active device is mouse")
+        } else {
+          console.log("Last active device is not mouse")
+          errorCount++
+        }
+      }
       if (i === 270) {
         if (
           gic.mouse.justPressed.length === 0 &&
@@ -307,6 +323,14 @@ describe("GukiInputController", () => {
           console.log("Button B held correctly")
         } else {
           console.log("Button B not held correctly")
+          errorCount++
+        }
+      }
+      if (i === 250) {
+        if (gic.lastActiveDevice === "gamepad") {
+          console.log("Last active device is gamepad")
+        } else {
+          console.log("Last active device is not gamepad")
           errorCount++
         }
       }

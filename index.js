@@ -2,6 +2,8 @@ import { cloneDeep, remove } from "./lib.js"
 
 export default class GukiInputController {
   constructor() {
+    this.lastActiveDevice = undefined
+
     this.keyboard = {
       _buttonsToAdd: [],
       _buttonsToRemove: [],
@@ -131,7 +133,7 @@ export default class GukiInputController {
       this.gamepad.axes = gamepads[0].axes
     }
   }
-  _processGamepadConnect() {
+  _processGamepadConnection() {
     if (this.gamepad.connected && !this.gamepad._previouslyConnected) {
       this.gamepad.justConnected = true
     } else {
@@ -144,13 +146,31 @@ export default class GukiInputController {
     }
     this.gamepad._previouslyConnected = this.gamepad.connected
   }
+  _setLastActiveDevice() {
+    if (this.keyboard.justPressed.length > 0) {
+      this.lastActiveDevice = "keyboard"
+    }
+    if (this.mouse.justPressed.length > 0) {
+      this.lastActiveDevice = "mouse"
+    }
+
+    if (!this.gamepad.connected) return
+    let axesActive = false
+    this.gamepad.axes.forEach((axis) => {
+      if (Math.abs(axis) > 0.15) axesActive = true
+    })
+    if (this.gamepad.justPressed.length > 0 || axesActive) {
+      this.lastActiveDevice = "gamepad"
+    }
+  }
   update() {
     this._processInputDevice(this.keyboard)
     this._processInputDevice(this.mouse)
-    if (this.gamepad.connected) {
-      this._processGamepad()
-    }
-    this._processGamepadConnect()
+
+    this._processGamepadConnection()
+    if (this.gamepad.connected) this._processGamepad()
+
+    this._setLastActiveDevice()
   }
 }
 

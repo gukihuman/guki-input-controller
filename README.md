@@ -2,7 +2,7 @@
 
 This is a lightweight JavaScript module that provides a simple input controller class for loop-based game development. It supports keyboard, mouse, and gamepad.
 
-_current version: 0.8.6_
+_current version: 0.8.7_
 
 ## Overview
 
@@ -17,6 +17,10 @@ This function sets up the controller. It has to be called once before a game loo
 This function has to be called in the game loop.
 
 ### Properties
+
+#### **lastActiveDevice**
+
+A string - keyboard, mouse or gamepad.
 
 #### **keyboard.pressed**
 
@@ -121,6 +125,14 @@ function gameLoop() {
 This function has to be called in the game loop before the controller states are checked, as shown in the previous example.
 
 ## Properties
+
+### **lastActiveDevice**
+
+Could be keyboard, mouse or gamepad.
+
+```
+lastActiveDevice = "keyboard"
+```
 
 ### **keyboard.pressed**
 

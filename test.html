@@ -50,29 +50,27 @@
 
     <script type="module">
       import GukiInputController from "./index.js"
-
-      const inputController = new GukiInputController()
+      const gic = new GukiInputController()
+      gic.init()
 
       function update() {
-        inputController.update()
+        gic.update()
 
         // Update keyboard info
         const keyboardPressed = document.getElementById("keyboard-pressed")
         const keyboardJustPressed = document.getElementById(
           "keyboard-just-pressed"
         )
-        keyboardPressed.innerText = inputController.keyboard.pressed.join(", ")
-        keyboardJustPressed.innerText =
-          inputController.keyboard.justPressed.join(", ")
+        keyboardPressed.innerText = gic.keyboard.pressed.join(", ")
+        keyboardJustPressed.innerText = gic.keyboard.justPressed.join(", ")
 
         // Update mouse info
         const mousePressed = document.getElementById("mouse-pressed")
         const mouseJustPressed = document.getElementById("mouse-just-pressed")
         const mousePosition = document.getElementById("mouse-position")
-        mousePressed.innerText = inputController.mouse.pressed.join(", ")
-        mouseJustPressed.innerText =
-          inputController.mouse.justPressed.join(", ")
-        mousePosition.innerText = `${inputController.mouse.x}, ${inputController.mouse.y}`
+        mousePressed.innerText = gic.mouse.pressed.join(", ")
+        mouseJustPressed.innerText = gic.mouse.justPressed.join(", ")
+        mousePosition.innerText = `${gic.mouse.x}, ${gic.mouse.y}`
 
         // Update gamepad info
         const gamepadPressed = document.getElementById("gamepad-pressed")
@@ -87,20 +85,16 @@
           "gamepad-just-disconnected"
         )
         const gamepadAxes = document.getElementById("gamepad-axes")
-        gamepadPressed.innerText = inputController.gamepad.pressed.join(", ")
-        gamepadJustPressed.innerText =
-          inputController.gamepad.justPressed.join(", ")
-        gamepadConnected.innerText = inputController.gamepad.connected
+        gamepadPressed.innerText = gic.gamepad.pressed.join(", ")
+        gamepadJustPressed.innerText = gic.gamepad.justPressed.join(", ")
+        gamepadConnected.innerText = gic.gamepad.connected ? "Yes" : "No"
+        gamepadJustConnected.innerText = gic.gamepad.justConnected
           ? "Yes"
           : "No"
-        gamepadJustConnected.innerText = inputController.gamepad.justConnected
+        gamepadJustDisconnected.innerText = gic.gamepad.justDisconnected
           ? "Yes"
           : "No"
-        gamepadJustDisconnected.innerText = inputController.gamepad
-          .justDisconnected
-          ? "Yes"
-          : "No"
-        gamepadAxes.innerText = inputController.gamepad.axes.join(", ")
+        gamepadAxes.innerText = gic.gamepad.axes.join(", ")
       }
 
       // Call the update function every frame
