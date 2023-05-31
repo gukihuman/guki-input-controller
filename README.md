@@ -2,7 +2,7 @@
 
 This is a lightweight JavaScript module that provides a simple input controller class for loop-based game development. It supports keyboard, mouse, and gamepad.
 
-_current version: 0.8.7_
+_current version: 0.8.8_
 
 ## Overview
 
@@ -130,7 +130,7 @@ This function has to be called in the game loop before the controller states are
 
 Could be keyboard, mouse or gamepad.
 
-```
+```javascript
 lastActiveDevice = "keyboard"
 ```
 
@@ -167,8 +167,8 @@ keyboard.justPressed = []
 
 ```javascript
 if (gic.keyboard.pressed.includes("A")) {
-  ceonsole.log("Move forward")
-  e // true, will work again
+  console.log("Move forward")
+  // true, will work again
 }
 if (gic.keyboard.justPressed.includes("B")) {
   console.log("Switch weapons")
